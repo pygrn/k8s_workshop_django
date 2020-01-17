@@ -1,0 +1,29 @@
+version: '3'
+
+volumes:
+  postgres_data: {}
+  postgres_data_backups: {}
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile
+    image: k8s_workshop_django
+    depends_on:
+      - postgres
+    env_file:
+      - ./.envs/.django
+      - ./.envs/.postgres
+    command: /start
+    ports:
+      - 8000:5000
+
+  postgres:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.postgres
+

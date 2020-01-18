@@ -17,7 +17,7 @@ spec:
         app: django
     spec:
       containers:
-      - image: k8s_workshop_django
+      - image: pentux/pygrn_k8s_workshop:1.0.0
         name: django
         args:
         - /start

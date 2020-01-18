@@ -1,72 +1,77 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.19.0 (f63a961c)
-  creationTimestamp: null
   labels:
-    io.kompose.service: postgres
+    app: postgres
   name: postgres
 spec:
   replicas: 1
   strategy:
     type: Recreate
+  selector:
+    matchLabels:
+      app: postgres
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.19.0 (f63a961c)
-      creationTimestamp: null
       labels:
-        io.kompose.service: postgres
+        app: postgres
     spec:
       containers:
-      - env:
+      - image: postgres
+        name: postgres
+        env:
         - name: DATABASE_URL
           valueFrom:
             configMapKeyRef:
               key: DATABASE_URL
-              name: postgres-envs--postgres
+              name: postgres-envs
         - name: POSTGRES_DB
           valueFrom:
             configMapKeyRef:
               key: POSTGRES_DB
-              name: postgres-envs--postgres
+              name: postgres-envs
         - name: POSTGRES_HOST
           valueFrom:
             configMapKeyRef:
               key: POSTGRES_HOST
-              name: postgres-envs--postgres
+              name: postgres-envs
         - name: POSTGRES_PASSWORD
           valueFrom:
             configMapKeyRef:
               key: POSTGRES_PASSWORD
-              name: postgres-envs--postgres
+              name: postgres-envs
         - name: POSTGRES_PORT
           valueFrom:
             configMapKeyRef:
               key: POSTGRES_PORT
-              name: postgres-envs--postgres
+              name: postgres-envs
         - name: POSTGRES_USER
           valueFrom:
             configMapKeyRef:
               key: POSTGRES_USER
-              name: postgres-envs--postgres
-        image: postgres
-        name: postgres
+              name: postgres-envs
         resources: {}
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: postgres-data
-        - mountPath: /backups
-          name: postgres-data-backups
       restartPolicy: Always
       volumes:
       - name: postgres-data
         persistentVolumeClaim:
           claimName: postgres-data
-      - name: postgres-data-backups
-        persistentVolumeClaim:
-          claimName: postgres-data-backups
+status: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: null
+  labels:
+    app: postgres-data
+  name: postgres-data
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
 status: {}

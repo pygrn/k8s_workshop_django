@@ -1,0 +1,99 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.19.0 (f63a961c)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: django
+  name: django
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.19.0 (f63a961c)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: django
+    spec:
+      containers:
+      - args:
+        - /start
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              key: DATABASE_URL
+              name: django-envs--postgres
+        - name: DJANGO_ADMIN_URL
+          valueFrom:
+            configMapKeyRef:
+              key: DJANGO_ADMIN_URL
+              name: django-envs--django
+        - name: DJANGO_DEBUG
+          valueFrom:
+            configMapKeyRef:
+              key: DJANGO_DEBUG
+              name: django-envs--django
+        - name: DJANGO_SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: DJANGO_SECRET_KEY
+              name: django-envs--django
+        - name: DJANGO_SETTINGS_MODULE
+          valueFrom:
+            configMapKeyRef:
+              key: DJANGO_SETTINGS_MODULE
+              name: django-envs--django
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_DB
+              name: django-envs--postgres
+        - name: POSTGRES_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_HOST
+              name: django-envs--postgres
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_PASSWORD
+              name: django-envs--postgres
+        - name: POSTGRES_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_PORT
+              name: django-envs--postgres
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_USER
+              name: django-envs--postgres
+        - name: WEB_CONCURRENCY
+          valueFrom:
+            configMapKeyRef:
+              key: WEB_CONCURRENCY
+              name: django-envs--django
+        image: k8s_workshop_django
+        name: django
+        resources: {}
+        volumeMounts:
+        - mountPath: /app
+          name: django-claim0
+        - mountPath: /app/k8s_workshop/static
+          name: static-volume
+      restartPolicy: Always
+      volumes:
+      - name: django-claim0
+        persistentVolumeClaim:
+          claimName: django-claim0
+      - name: static-volume
+        persistentVolumeClaim:
+          claimName: static-volume
+status: {}

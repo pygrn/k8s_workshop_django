@@ -1,0 +1,13 @@
+apiVersion: v1
+data:
+  DJANGO_ADMIN_URL: /admin
+  DJANGO_DEBUG: "True"
+  DJANGO_SECRET_KEY: django_secret
+  DJANGO_SETTINGS_MODULE: k8s_workshop.settings
+  WEB_CONCURRENCY: "4"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: django-envs--django
+  name: django-envs--django

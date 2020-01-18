@@ -96,7 +96,7 @@ ADMIN_URL = env("DJANGO_ADMIN_URL", default="/admin")
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-DATABASES = {"default": env.db("DATABASE_URL", default="a")}
+DATABASES = {"default": env.db("DATABASE_URL")}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # noqa F405
 # Password validation

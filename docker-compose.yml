@@ -3,6 +3,7 @@ version: '3'
 volumes:
   postgres_data: {}
   postgres_data_backups: {}
+  static_volume: {}
 
 services:
   django:
@@ -10,14 +11,15 @@ services:
       context: .
       dockerfile: ./compose/django/Dockerfile
     image: k8s_workshop_django
+    volumes:
+      - .:/app
+      - static_volume:/app/k8s_workshop/static
     depends_on:
       - postgres
     env_file:
       - ./.envs/.django
       - ./.envs/.postgres
     command: /start
-    ports:
-      - 8000:5000
 
   postgres:
     image: postgres
@@ -27,3 +29,12 @@ services:
     env_file:
       - ./.envs/.postgres
 
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./compose/nginx/conf.d:/etc/nginx/conf.d
+      - static_volume:/app/k8s_workshop/static
+    depends_on:
+      - django

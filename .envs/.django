@@ -1,7 +1,7 @@
 # General
 # ------------------------------------------------------------------------------
 # DJANGO_READ_DOT_ENV_FILE=True
-DJANGO_SETTINGS_MODULE=k8s_workshop.settings
+DJANGO_SETTINGS_MODULE=src.main.settings
 DJANGO_SECRET_KEY=django_secret
 DJANGO_ADMIN_URL=/admin
 DJANGO_DEBUG=True

@@ -39,32 +39,20 @@ spec:
         - containerPort: 80
         resources: {}
         volumeMounts:
-        - mountPath: /etc/nginx/conf.d
-          name: nginx-claim0
-        - mountPath: /app/k8s_workshop/static
+        - mountPath: /code/k8s_workshop/static
           name: static-volume
+        - mountPath: /etc/nginx/conf.d/default.conf
+          name: nginx-configmap
+          subPath: conf.d-local.conf
+          readOnly: true
       restartPolicy: Always
       volumes:
-      - name: nginx-claim0
-        persistentVolumeClaim:
-          claimName: nginx-claim0
       - name: static-volume
         persistentVolumeClaim:
           claimName: static-volume
-status: {}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app: nginx-claim0
-  name: nginx-claim0
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Mi
+      - name: nginx-configmap
+        configMap:
+          name: nginx-configmap
 status: {}
 ---
 apiVersion: v1
@@ -80,3 +68,34 @@ spec:
     requests:
       storage: 100Mi
 status: {}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-configmap
+data:
+  conf.d-local.conf: '
+upstream django_server {
+    server django:5000;
+}
+
+server {
+    listen 80;
+    server_name localhost;
+
+    location / {
+        proxy_pass http://django_server;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host;
+        proxy_redirect off;
+    }
+
+    location /static/ {
+        alias /code/k8s_workshop/static/;
+    }
+
+    location /media/ {
+        alias /code/k8s_workshop/media/;
+    }
+}'
+

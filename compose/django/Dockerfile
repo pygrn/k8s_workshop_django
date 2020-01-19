@@ -26,8 +26,7 @@ COPY ./compose/django/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 
-COPY . /app
-
-WORKDIR /app
+WORKDIR /code
+COPY . /code/
 
 ENTRYPOINT ["/entrypoint"]

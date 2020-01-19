@@ -10,10 +10,10 @@ services:
     build:
       context: .
       dockerfile: ./compose/django/Dockerfile
-    image: k8s_workshop_django
+    image: pentux/pygrn_k8s_workshop:latest
     volumes:
-      - .:/app
-      - static_volume:/app/k8s_workshop/static
+      - .:/code
+      - static_volume:/code/k8s_workshop/static
     depends_on:
       - postgres
     env_file:
@@ -35,6 +35,6 @@ services:
       - 80:80
     volumes:
       - ./compose/nginx/conf.d:/etc/nginx/conf.d
-      - static_volume:/app/k8s_workshop/static
+      - static_volume:/code/k8s_workshop/static
     depends_on:
       - django

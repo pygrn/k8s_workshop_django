@@ -42,7 +42,6 @@ DEBUG = env.bool("DJANGO_DEBUG", False)
 
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["*"])
 
-
 # Application definition
 
 DJANGO_APPS = [
@@ -97,6 +96,10 @@ WSGI_APPLICATION = 'src.wsgi.application'
 # ------------------------------------------------------------------------------
 # Django Admin URL regex.
 ADMIN_URL = env("DJANGO_ADMIN_URL", default="/admin")
+
+SUPERUSER_NAME=env("SUPERUSER_NAME")
+SUPERUSER_EMAIL=env("SUPERUSER_EMAIL")
+SUPERUSER_PASSWORD=env("SUPERUSER_PASSWORD")
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

@@ -13,7 +13,7 @@ services:
     image: pentux/pygrn_k8s_workshop:latest
     volumes:
       - .:/code
-      - static_volume:/code/k8s_workshop/static
+      - static_volume:/code/static
     depends_on:
       - postgres
     env_file:
@@ -35,6 +35,6 @@ services:
       - 80:80
     volumes:
       - ./compose/nginx/conf.d:/etc/nginx/conf.d
-      - static_volume:/code/k8s_workshop/static
+      - static_volume:/code/static
     depends_on:
       - django

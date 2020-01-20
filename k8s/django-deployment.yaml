@@ -95,7 +95,7 @@ spec:
               name: django-envs
         resources: {}
         volumeMounts:
-        - mountPath: /code/k8s_workshop/static
+        - mountPath: /code/static
           name: static-volume
       restartPolicy: Always
       volumes:

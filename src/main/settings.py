@@ -13,9 +13,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import environ
 
 ROOT_DIR = (
-    environ.Path(__file__) - 2
+    environ.Path(__file__) - 3
 )
-APPS_DIR = ROOT_DIR.path("k8s_workshop")
+APPS_DIR = ROOT_DIR.path("src")
 
 env = environ.Env()
 
@@ -57,7 +57,8 @@ THIRD_PARTY_APPS = [
     'rest_framework',
 ]
 LOCAL_APPS = [
-
+    'main',
+    'api',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -72,7 +73,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'k8s_workshop.urls'
+ROOT_URLCONF = 'main.urls'
 
 TEMPLATES = [
     {
@@ -90,7 +91,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'k8s_workshop.wsgi.application'
+WSGI_APPLICATION = 'src.wsgi.application'
 
 # ADMIN
 # ------------------------------------------------------------------------------
@@ -138,6 +139,6 @@ USE_TZ = True
 # STATIC
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = str(APPS_DIR.path("static"))
+STATIC_ROOT = str(ROOT_DIR.path("static"))
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = "/static/"

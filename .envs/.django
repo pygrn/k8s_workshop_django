@@ -1,10 +1,16 @@
 # General
 # ------------------------------------------------------------------------------
 # DJANGO_READ_DOT_ENV_FILE=True
-DJANGO_SETTINGS_MODULE=src.main.settings
+DJANGO_SETTINGS_MODULE=main.settings
 DJANGO_SECRET_KEY=django_secret
 DJANGO_ADMIN_URL=/admin
 DJANGO_DEBUG=True
+
+# Superuser credentials
+# ------------------------------------------------------------------------------
+SUPERUSER_NAME=admin
+SUPERUSER_EMAIL=admin@pygrn.cat
+SUPERUSER_PASSWORD=admin
 
 # Gunicorn
 # ------------------------------------------------------------------------------

@@ -25,7 +25,6 @@ services:
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - postgres_data_backups:/backups
     env_file:
       - ./.envs/.postgres
 

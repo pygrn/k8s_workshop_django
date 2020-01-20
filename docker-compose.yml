@@ -2,7 +2,6 @@ version: '3'
 
 volumes:
   postgres_data: {}
-  postgres_data_backups: {}
   static_volume: {}
 
 services:

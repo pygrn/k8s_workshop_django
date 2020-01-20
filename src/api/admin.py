@@ -1,3 +1,18 @@
 from django.contrib import admin
+from api.models import Animal, AnimalType
 
-# Register your models here.
+
+@admin.register(Animal)
+class AnimalAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'name',
+    )
+
+
+@admin.register(AnimalType)
+class AnimalTypeAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'name',
+    )
